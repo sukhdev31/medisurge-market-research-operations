@@ -1,0 +1,16 @@
+name: Public demo checks
+on:
+  push:
+  pull_request:
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Run decision engine tests
+        run: python -m unittest discover -s tests -v
+      - name: Check public release boundary
+        run: python -m scripts.check_release
